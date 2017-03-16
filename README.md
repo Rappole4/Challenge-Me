@@ -1,24 +1,6 @@
-# README
+# Challenge Me!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Designed using RoR.
+Created to bring competitive friends together, to compete regardless of the distance between them.
+Users can either create competitions, set up rules, invite friends and decide durations.
+Competitors can accept invitations to competitions and update stats, trash talk fellow competitors and win medals.
