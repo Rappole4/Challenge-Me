@@ -1,2 +1,0 @@
-class CompChallenge < ApplicationRecord
-end

@@ -15,6 +15,7 @@ class CompetitionsController < ApplicationController
   # GET /competitions/new
   def new
     @competition = Competition.new
+    @challenges = Challenge.all
   end
 
   # GET /competitions/1/edit
@@ -25,6 +26,7 @@ class CompetitionsController < ApplicationController
   # POST /competitions.json
   def create
     @competition = Competition.new(competition_params)
+    @challenges = Challenge.all
 
     respond_to do |format|
       if @competition.save
