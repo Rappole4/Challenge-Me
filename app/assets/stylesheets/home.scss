@@ -1,0 +1,53 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+//fonts and words
+#about {
+	margin:1%;
+	float:left;
+	text-indent:32px;
+	font-family:'courier new';
+}
+.about {
+	font-size:22px;
+	font-family:'courier new';
+}
+
+//first logo
+#logo {
+	margin:1%;
+	float:left;
+}
+
+//second row
+#group {
+	clear:left;
+}
+
+//first image
+#creator {
+	margin:1%;
+	float:left;;
+}
+
+//links section
+#links {
+	margin:1%;
+	float:left;
+}
+#charts {
+	
+}
+
+//second logo
+#lets_do_this {
+	margin:1%;
+	float:left;
+	width:50%;
+	height:45%;
+}
+#image {
+	height:100%;
+	width:100%;
+}
