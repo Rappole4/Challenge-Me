@@ -4,7 +4,7 @@ class CompetitionsController < ApplicationController
   # GET /competitions
   # GET /competitions.json
   def index
-    @competitions = Competition.all
+    @competitions = current_user.competitions
   end
 
   # GET /competitions/1
@@ -16,10 +16,13 @@ class CompetitionsController < ApplicationController
   def new
     @competition = Competition.new
     @challenges = Challenge.all
+
   end
 
   # GET /competitions/1/edit
   def edit
+    @challenges = Challenge.all
+    @competition.user_id = current_user.id
   end
 
   # POST /competitions
@@ -27,6 +30,7 @@ class CompetitionsController < ApplicationController
   def create
     @competition = Competition.new(competition_params)
     @challenges = Challenge.all
+    @competition.user_id = current_user.id
 
     respond_to do |format|
       if @competition.save
@@ -71,6 +75,6 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
-      params.required(:competition).permit(:game)
+      params.required(:competition).permit(:challenge_id, :game, :name, :goal)
     end
 end

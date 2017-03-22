@@ -11,6 +11,15 @@
     </div>
   <% end %>
 
+    <div class="field">
+      <%= f.hidden_field :user_id, value: current_user, class: "field" %>
+      <%= f.label :name %>
+      <%= f.text_field :name %><br>
+      <%= f.label :challenges %>
+      <%= f.select :challenge_id, @challenges.map{|y|["#{y.game}",y.id]} %><br>
+      <%= f.label :goal %>
+      <%= f.number_field :goal %><br>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>
