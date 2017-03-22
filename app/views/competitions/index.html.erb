@@ -12,6 +12,9 @@
   <tbody>
     <% @competitions.each do |competition| %>
       <tr>
+        <td><%= competition.name %></td>
+        <td><%= competition.challenge_id %></td>
+        <td><%= competition.goal %></td>
         <td><%= link_to 'Show', competition %></td>
         <td><%= link_to 'Edit', edit_competition_path(competition) %></td>
         <td><%= link_to 'Destroy', competition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
