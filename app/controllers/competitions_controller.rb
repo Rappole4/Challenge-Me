@@ -31,9 +31,10 @@ class CompetitionsController < ApplicationController
     @competition = Competition.new(competition_params)
     @challenges = Challenge.all
     @competition.user_id = current_user.id
-
+    p "particpants: #{params[:participants]}"
     respond_to do |format|
       if @competition.save
+        UserCompetition.create(user_id: current_user.id, competition_id: @competition.id, status: :fighter)
         format.html { redirect_to @competition, notice: 'Competition was successfully created.' }
         format.json { render :show, status: :created, location: @competition }
       else
@@ -75,6 +76,6 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
-      params.required(:competition).permit(:challenge_id, :game, :name, :goal)
+      params.required(:competition).permit(:challenge_id, :game, :name, :goal, :competitor, :participants)
     end
 end
