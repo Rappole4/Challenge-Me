@@ -19,6 +19,12 @@
       <%= f.select :challenge_id, @challenges.map{|y|["#{y.game}",y.id]} %><br>
       <%= f.label :goal %>
       <%= f.number_field :goal %><br>
+      <%= f.label :number_of_competitors %>
+      <%= f.number_field :competitor %><br>
+      <%= (1..(@competition.competitor||1)).each do |x| %>
+      <%= label_tag :'participants' %>
+      <%= text_field_tag :'participants[]' %>
+      <% end %>
     </div>
   <div class="actions">
     <%= f.submit %>

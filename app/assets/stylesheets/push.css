@@ -4,6 +4,7 @@
 	padding: 2%;
 	text-align:center;
 	font-family: 'Poppins', sans-serif;
+	font-size: 34px;
 }
 .pushTh {
 	width:25%;
@@ -11,6 +12,7 @@
 	padding: 2%;
 	text-align:center;
 	font-family: 'Poppins', sans-serif;
+	font-size: 34px;
 }
 .pushTd {
 	width:25%;
@@ -18,4 +20,8 @@
 	padding: 2%;
 	text-align:center;
 	font-family: 'Poppins', sans-serif;
+	font-size: 34px;
+}
+#pushGoalcolor {
+	background-color: lightblue;
 }
