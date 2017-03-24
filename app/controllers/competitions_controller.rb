@@ -23,6 +23,7 @@ class CompetitionsController < ApplicationController
   def edit
     @challenges = Challenge.all
     @competition.user_id = current_user.id
+
   end
 
   # POST /competitions
@@ -31,10 +32,17 @@ class CompetitionsController < ApplicationController
     @competition = Competition.new(competition_params)
     @challenges = Challenge.all
     @competition.user_id = current_user.id
-    p "particpants: #{params[:participants]}"
+
     respond_to do |format|
       if @competition.save
         UserCompetition.create(user_id: current_user.id, competition_id: @competition.id, status: :fighter)
+         # loop over each of the participants whose usernames were submitted
+        params[:participants].each do |username|
+             participant = User.find_by(username: username)
+             if participant
+                  UserCompetition.create( user_id: participant.id, competition_id: @competition.id, status: :fighter) 
+             end
+        end if params[:participants]
         format.html { redirect_to @competition, notice: 'Competition was successfully created.' }
         format.json { render :show, status: :created, location: @competition }
       else
@@ -49,6 +57,13 @@ class CompetitionsController < ApplicationController
   def update
     respond_to do |format|
       if @competition.update(competition_params)
+         # loop over each of the participants whose usernames were submitted
+        params[:participants].each do |username|
+             participant = User.find_by(username: username)
+             if participant
+                  UserCompetition.create( user_id: participant.id, competition_id: @competition.id, status: :fighter) 
+             end
+        end if params[:participants]
         format.html { redirect_to @competition, notice: 'Competition was successfully updated.' }
         format.json { render :show, status: :ok, location: @competition }
       else
