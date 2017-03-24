@@ -20,13 +20,39 @@
       <%= f.label :goal %>
       <%= f.number_field :goal %><br>
       <%= f.label :number_of_competitors %>
-      <%= f.number_field :competitor %><br>
-      <%= (1..(@competition.competitor||1)).each do |x| %>
+      <%= f.number_field :competitor %><input class="save" type="button" value="Save" /><br>
+      <% unless edit %>
+      <%= (2..(@competition.competitor||1)).each do |x| %>
       <%= label_tag :'participants' %>
       <%= text_field_tag :'participants[]' %>
+      <% end %>
+      <% end %>
+      <% if edit %>
+      <%= ((@competition.competitor - competition.participants.count)).times do |x| %>
+      <%= label_tag :'participants' %>
+      <%= text_field_tag :'participants[]' %>
+      <% end %>
       <% end %>
     </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<div id="template">
+      <%= label_tag :'participants' %>
+      <%= text_field_tag :'participants[]' %>
+</div>
+
+<!-- <script>
+document.addEventListener("DOMContentLoaded",function(){   
+    var participants = <%= competition.participants.count %>; 
+    var btn = document.querySelector('.save');
+      btn.addEventListener('click', function(event){
+        event.preventDefault()
+      for(var i=0; i< document.querySelector('#competition_competitor').value - participants - document.querySelectorAll('#participants_').length; i++) {
+        document.querySelector('form .field').innerHTML += document.querySelector('#template').innerHTML;
+      }
+    })
+});
+</script> -->
