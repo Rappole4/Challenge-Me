@@ -4,4 +4,5 @@ class Competition < ApplicationRecord
 	validates :user_id, presence: true
 	has_many :participants, :through => :user_competitions, source: :user
 	has_many :user_competitions
+	has_many :dailies
 end
