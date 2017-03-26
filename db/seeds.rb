@@ -16,3 +16,16 @@ Challenge.create([
 		game: "Pull-Ups"
 	}
 ])
+# adds day 1 to all competitions and gives access for participants to enter daily count
+# Competition.each do |competition|
+# 	Competition.participants.each do |participant|
+# 		Daily.create([
+# 			{
+# 				sunshine: 1,
+# 				user_id: participant.id,
+# 				competition_id: Competition.first.id,
+# 				gamecount: 0
+# 			}
+# 		])
+# 	end
+# end

@@ -14,15 +14,15 @@
 		<% end %>
 	</tr>
 	<tr class="pushTr">
-		<th class="pushTh">Day 1</th>
+		<th class="pushTh">Day <%= @competition.created_at.day - (@competition.created_at.day-1) %></th>
 		<% @competition.participants.each do |participant| %>
-		<td name="A" data-participant="<%= participant.username %>" class="pushTd">265</td>
+		<td name="A" data-participant="<%= participant.username %>" class="pushTd">200</td>
 		<% end %>
 	</tr>
 	<tr class="pushTr">
-		<th class="pushTh">Day 2</th>
+		<th class="pushTh">Day <%= @competition.created_at.day - (@competition.created_at.day-2) %></th>
 		<% @competition.participants.each do |participant| %>
-		<td name="A" data-participant="<%= participant.username %>" class="pushTd">100</td>
+		<td name="A" data-participant="<%= participant.username %>" class="pushTd">500</td>
 		<% end %>
 	</tr>
 	<tr class="pushTr">
@@ -35,28 +35,27 @@
 	<tr class="pushTr">
 		<th class="pushTh">Avg Per Day</th>
 		<% @competition.participants.each do |participant| %>
-		<td id="AA" data-participant="<%= participant.username %>" class="pushTd"><i></i></td>
+		<td id="AA" data-participant="<%= participant.username %>" class="pushTd averages"><i></i></td>
 		<% end %>
 
 	</tr>
 	<tr class="pushTr">
 		<th class="pushTh">Hit Goal</th>
 		<% @competition.participants.each do |participant| %>
-		<td id="GA" data-participant="<%= participant.username %>" class="pushTd"><strong></strong></td>
+		<td id="GA" data-participant="<%= participant.username %>" class="pushTd goal"><strong></strong></td>
 		<% end %>
 
 	</tr>
 	<tr class="pushTr">
 		<th class="pushTh">Most in Single Day</th>
 		<% @competition.participants.each do |participant| %>
-		<td id="HA" data-participant="<%= participant.username %>" class="pushTd"><strong></strong></td>
+		<td id="HA" data-participant="<%= participant.username %>" class="pushTd most"><strong></strong></td>
 		<% end %>
 
 	</tr>
 </table>
 
 <script>
-//Tim Anderson
 	// each days count
 	var dayA;
 	// highest count in one day
@@ -67,189 +66,48 @@
 	var i;
 	function totalA(){
 		dayA = document.getElementsByName('A');
+		//v--for finding totals (works)
 		objA = [].reduce.call(dayA, function(obj, el){
 			var key = el.getAttribute('data-participant');
 			obj[key] = (obj[key]||0)+parseInt(el.innerHTML);
 			return obj;
 		},{});
+		// ^-total found (works)
+		// v--pulling total out and doing stuff with it (works)
 		var elTotals = document.querySelectorAll('.totals');
+		var elAverages = document.querySelectorAll('.averages');
+		var elGoal = document.querySelectorAll('.goal');
+		var elMost = document.querySelectorAll('.most');
 		goalA = 0;
 		for (i=0; i<elTotals.length; i++){
 			var key = elTotals[i].getAttribute('data-participant');
+			//v--each participants total displayed (works)
 			elTotals[i].innerHTML = "<strong>"+objA[key]+"</strong>";
-			// checks to see if dayA[i] is greater than or equal to dayS[i] + dayR[i]
-		}
-		for (j=0; j<8; j++){
-			if (parseInt(dayA[j].innerHTML)>=(<%= @competition.goal %>)) {
+			//v--each participants average displayed (works)
+			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  Time.now.day - @competition.created_at.day + 2 %>+"</i>";
+			//v--to do, fix to find biggest number for each participant not just biggest overall (HELP)
+			elMost[i].innerHTML = Math.max.apply(null, [].map.call(dayA, c => parseInt(c.innerHTML )));
+			//v--to do, fix to find if each day hit goal, not total****** (HELP)
+			if ((objA[key])>=<%= @competition.goal %>){
 				goalA += 1;
-				// changes color of days where goal was met
+				elGoal[i].innerHTML = goalA;
+			}
+			else {
+				elGoal[i].innerHTML = 0
+			}
+		}
+		// v--to goal or not for loop (works) TO DO:change j<4 to something connected to Daily
+		var elValue = parseInt(document.querySelectorAll('values'));
+		for (j=0; j<(elTotals.length * <%=  Time.now.day - @competition.created_at.day + 2 %>); j++){
+			if (parseInt(dayA[j].innerHTML)>=(<%= @competition.goal %>)) {
+				// v--changes color of days where goal was met or not (works)
 				dayA[j].style.color = "green";
 			}
 			else {
 				dayA[j].style.color = "red";
 			}
 		}
-		// sets Goal innerHTML to goalA
-		document.getElementById("GA").innerHTML = goalA;
-		// puts each day into an array, sorts them small to big, then reverses their order
-		highA = Math.max.apply(null, [].map.call(dayA, c => parseInt(c.innerHTML )));
-		// takes the largest number from the highA array, by taking first element
-		document.getElementById("HA").innerHTML = highA;
 	}
-	// calls totalA() function
+	// v--calls totalA() function (works)
 	totalA();
-
-// Catagories
-	// award medal function on Totals
-	// function checkTotal(){
-	// 	if (((totA > totS)&&(totA > totR)&&(totS > totR))){
-	// 		document.getElementById('TA').style.background = "gold";
-	// 		document.getElementById('TS').style.background = "silver";
-	// 		document.getElementById('TR').style.background = "brown";
-	// 	}
-	// 	else if (((totA > totS)&&(totA > totR)&&(totR > totS))){
-	// 		document.getElementById('TA').style.background = "gold";
-	// 		document.getElementById('TR').style.background = "silver";
-	// 		document.getElementById('TS').style.background = "brown";
-	// 	}
-	// 	else if (((totR > totA)&&(totR > totS)&&(totA > totS))){
-	// 		document.getElementById('TR').style.background = "gold";
-	// 		document.getElementById('TA').style.background = "silver";
-	// 		document.getElementById('TS').style.background = "brown";
-	// 	}
-	// 	else if (((totR > totA)&&(totR > totS)&&(totS > totA))){
-	// 		document.getElementById('TR').style.background = "gold";
-	// 		document.getElementById('TS').style.background = "silver";
-	// 		document.getElementById('TA').style.background = "brown";
-	// 	}
-	// 	else if (((totS > totA)&&(totS > totR)&&(totA > totR))){
-	// 		document.getElementById('TS').style.background = "gold";
-	// 		document.getElementById('TA').style.background = "silver";
-	// 		document.getElementById('TR').style.background = "brown";
-	// 	}
-	// 	else {
-	// 		document.getElementById('TS').style.background = "gold";
-	// 		document.getElementById('TR').style.background = "silver";
-	// 		document.getElementById('TA').style.background = "brown";
-	// 	}
-	// }
-	// award medal function on Goals
-	// function checkGoal(){
-	// 	if (((goalA > goalS)&&(goalA > goalR)&&(goalS > goalR))){
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GS').style.background = "silver";
-	// 		document.getElementById('GR').style.background = "brown";
-	// 	}
-	// 	else if (((goalA > goalS)&&(goalA > goalR)&&(goalR > goalS))){
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "silver";
-	// 		document.getElementById('GS').style.background = "brown";
-	// 	}
-	// 	else if (((goalR > goalA)&&(goalR > goalS)&&(goalA > goalS))){
-	// 		document.getElementById('GR').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "silver";
-	// 		document.getElementById('GS').style.background = "brown";
-	// 	}
-	// 	else if (((goalR > goalA)&&(goalR > goalS)&&(goalS > goalA))){
-	// 		document.getElementById('GR').style.background = "gold";
-	// 		document.getElementById('GS').style.background = "silver";
-	// 		document.getElementById('GA').style.background = "brown";
-	// 	}
-	// 	else if (((goalS > goalA)&&(goalS > goalR)&&(goalA > goalR))){
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "silver";
-	// 		document.getElementById('GR').style.background = "brown";
-	// 	}
-	// 	else if (((goalS == goalA)&&(goalS == goalR))){
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "gold";
-	// 	}
-	// 	else if (((goalS == goalA)&&(goalS > goalR))){
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "brown";
-	// 	}
-	// 	else if (((goalS > goalA)&&(goalS == goalR))){
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "brown";
-	// 	}
-	// 	else if (((goalS < goalA)&&(goalA == goalR))){
-	// 		document.getElementById('GR').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GS').style.background = "brown";
-	// 	}
-	// 	else if (((goalS < goalA)&&(goalS == goalR))){
-	// 		document.getElementById('GS').style.background = "silver";
-	// 		document.getElementById('GA').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "silver";
-	// 	}
-	// 	else if (((goalS > goalA)&&(goalA == goalR))){
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "silver";
-	// 		document.getElementById('GA').style.background = "silver";
-	// 	}
-	// 	else if (((goalS < goalR)&&(goalA == goalS))){
-	// 		document.getElementById('GR').style.background = "gold";
-	// 		document.getElementById('GA').style.background = "silver";
-	// 		document.getElementById('GS').style.background = "silver";
-	// 	}
-	// 	else {
-	// 		document.getElementById('GS').style.background = "gold";
-	// 		document.getElementById('GR').style.background = "silver";
-	// 		document.getElementById('GA').style.background = "brown";
-	// 	}
-	// }
-	// award medal function on Most in Single Day
-	// function checkHigh(){
-	// 	if (((highA > highS)&&(highA > highR)&&(highS > highR))){
-	// 		document.getElementById('HA').style.background = "gold";
-	// 		document.getElementById('HS').style.background = "silver";
-	// 		document.getElementById('HR').style.background = "brown";
-	// 	}
-	// 	else if (((highA > highS)&&(highA > highR)&&(highR > highS))){
-	// 		document.getElementById('HA').style.background = "gold";
-	// 		document.getElementById('HR').style.background = "silver";
-	// 		document.getElementById('HS').style.background = "brown";
-	// 	}
-	// 	else if (((highR > highA)&&(highR > highS)&&(highA > highS))){
-	// 		document.getElementById('HR').style.background = "gold";
-	// 		document.getElementById('HA').style.background = "silver";
-	// 		document.getElementById('HS').style.background = "brown";
-	// 	}
-	// 	else if (((highR > highA)&&(highR > highS)&&(highS > highA))){
-	// 		document.getElementById('HR').style.background = "gold";
-	// 		document.getElementById('HS').style.background = "silver";
-	// 		document.getElementById('HA').style.background = "brown";
-	// 	}
-	// 	else if (((highS > highA)&&(highS > highR)&&(highA > highR))){
-	// 		document.getElementById('HS').style.background = "gold";
-	// 		document.getElementById('HA').style.background = "silver";
-	// 		document.getElementById('HR').style.background = "brown";
-	// 	}
-	// 	else {
-	// 		document.getElementById('HS').style.background = "gold";
-	// 		document.getElementById('HR').style.background = "silver";
-	// 		document.getElementById('HA').style.background = "brown";
-	// 	}
-	// }
-	// to goal or not function on Averages
-	function checkAverageA(){
-		if (totA/[i] >= <%= @competition.goal %>){
-			document.getElementById('AA').style.color = "green";
-		}
-		else {
-			document.getElementById('AA').style.color = "red";
-		}
-	}
-	// calls check() function on Totals to award Gold, Silver or Bronze
-	// checkTotal();
-	// calls check() function on Goals to award Gold, Silver or Bronze
-	// checkGoal();
-	// calls check() function on Most in Single Day to award Gold, Silver or Bronze
-	// checkHigh();
-	// calls check() function on Averages to give green or red
-	// checkAverageA();
-
 </script>
