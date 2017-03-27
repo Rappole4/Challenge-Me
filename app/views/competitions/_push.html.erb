@@ -1,5 +1,5 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-<h1>Push-Ups</h1>
+<h1><%= @competition.name %></h1>
 <table class="pushTable">
 	<tr class="pushTr">
 		<th class="pushTh">Names</th>
@@ -13,18 +13,24 @@
 		<th class="pushTh" id="pushGoalcolor"><%= @competition.goal %></th>
 		<% end %>
 	</tr>
+	<%=  (1..(Time.now.day - @competition.created_at.day + 1)).each do |day| %>
 	<tr class="pushTr">
-		<th class="pushTh">Day <%= @competition.created_at.day - (@competition.created_at.day-1) %></th>
-		<% @competition.participants.each do |participant| %>
-		<td name="A" data-participant="<%= participant.username %>" class="pushTd">200</td>
+		<th class="pushTh">Day <%= (Time.now.day - @competition.created_at.day + 1) %>:How many did you get today?</th>
+		<% @competition.participants.each do |participant| 
+			# daily count fixes
+			daily = @competition.dailies.where(user_id: participant.id).find_by(sunshine: day)
+			# ^-- REST test
+			%>
+		<td class="pushTd">
+		<!-- REST experiment -->
+		<span name="A" class="rest-in-place" data-participant="<%= participant.username %>" data-url="/competitions/<%= @competition.id %>/dailies/<%= day %>" data-object="daily" data-attribute="gamecount" data-placeholder='0'>
+  		<%= daily ? daily.gamecount : 0 %>
+		</span>
+		<!-- REST experiment -->
+		</td>
 		<% end %>
 	</tr>
-	<tr class="pushTr">
-		<th class="pushTh">Day <%= @competition.created_at.day - (@competition.created_at.day-2) %></th>
-		<% @competition.participants.each do |participant| %>
-		<td name="A" data-participant="<%= participant.username %>" class="pushTd">500</td>
-		<% end %>
-	</tr>
+	<% end %>
 	<tr class="pushTr">
 		<th class="pushTh">Totals</th>
 		<% @competition.participants.each do |participant| %>
@@ -84,7 +90,7 @@
 			//v--each participants total displayed (works)
 			elTotals[i].innerHTML = "<strong>"+objA[key]+"</strong>";
 			//v--each participants average displayed (works)
-			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  Time.now.day - @competition.created_at.day + 2 %>+"</i>";
+			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  Time.now.day - @competition.created_at.day + 1 %>+"</i>";
 			//v--to do, fix to find biggest number for each participant not just biggest overall (HELP)
 			elMost[i].innerHTML = Math.max.apply(null, [].map.call(dayA, c => parseInt(c.innerHTML )));
 			//v--to do, fix to find if each day hit goal, not total****** (HELP)
@@ -98,7 +104,7 @@
 		}
 		// v--to goal or not for loop (works) TO DO:change j<4 to something connected to Daily
 		var elValue = parseInt(document.querySelectorAll('values'));
-		for (j=0; j<(elTotals.length * <%=  Time.now.day - @competition.created_at.day + 2 %>); j++){
+		for (j=0; j<(elTotals.length * <%=  Time.now.day - @competition.created_at.day + 1 %>); j++){
 			if (parseInt(dayA[j].innerHTML)>=(<%= @competition.goal %>)) {
 				// v--changes color of days where goal was met or not (works)
 				dayA[j].style.color = "green";
