@@ -46,7 +46,7 @@
 	<tr class="pushTr">
 		<th class="pushTh">Most in Single Day</th>
 		<% @competition.participants.each do |participant| %>
-		<td id="HA" data-participant="<%= participant.username %>" class="pushTd most"><strong></strong></td>
+		<td data-participant="<%= participant.username %>" class="pushTd most"><strong></strong></td>
 		<% end %>
 
 	</tr>
@@ -69,6 +69,12 @@
 			obj[key] = (obj[key]||0)+parseInt(el.innerHTML);
 			return obj;
 		},{});
+		bestA = [].reduce.call(dayA, function(obj, el){
+			var key = el.getAttribute('data-participant');
+			var currentNum = parseInt(el.innerHTML);
+			obj[key] = obj[key] > currentNum ? obj[key] : currentNum;
+			return obj;
+		},{});
 		// ^-total found (works)
 		// v--pulling total out and doing stuff with it (works)
 		var elTotals = document.querySelectorAll('.totals');
@@ -83,7 +89,7 @@
 			//v--each participants average displayed (works)
 			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1) %>+"</i>";
 			//v--to do, fix to find biggest number for each participant not just biggest overall (HELP)
-			elMost[i].innerHTML = Math.max.apply(null, [].map.call(dayA, c => parseInt(c.innerHTML )));
+			elMost[i].innerHTML = bestA[key];
 		}
 		// v--to goal or not for loop (works) TO DO:change j<4 to something connected to Daily
 		var elValue = parseInt(document.querySelectorAll('values'));
