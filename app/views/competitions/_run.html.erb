@@ -1,1 +1,116 @@
-<h1>Run</h1>
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<h1><%= @competition.name %></h1>
+<table class="pushTable">
+	<tr class="pushTr">
+		<th class="pushTh">Names</th>
+		<% @competition.participants.each do |participant| %>
+		<th class="pushTh"><%= participant.username %></th>
+		<% end %>
+	</tr>
+	<tr class="pushTr">
+		<th class="pushTh">Goal</th>
+		<% (1..@competition.competitor).each do |competition| %>
+		<th class="pushTh" id="pushGoalcolor"><%= @competition.goal %></th>
+		<% end %>
+	</tr>
+	<%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1).times do |day| %>
+	<tr class="pushTr">
+		<th class="pushTh" id="daycount">How Many Miles You Do Today?</th>
+		<% @competition.participants.each do |participant| 
+			# daily count fixes using REST by janv/rest_in_place with alterations
+			daily = @competition.dailies.where(user_id: participant.id).find_by(sunshine: day) %>
+		<td class="pushTd">
+		<!-- REST experiment -->
+		<span name="A" class="rest-in-place" data-participant="<%= participant.username %>" data-url="/competitions/<%= @competition.id %>/dailies/<%= day %>" data-object="daily" data-attribute="gamecount" data-placeholder='0'>
+  		<%= daily ? daily.gamecount : 0 %>
+		</span>
+		<!-- REST experiment -->
+		</td>
+		<% end %>
+	</tr>
+	<% end %>
+	<tr class="pushTr">
+		<th class="pushTh">Totals</th>
+		<% @competition.participants.each do |participant| %>
+		<td id="TA" data-participant="<%= participant.username %>" class="pushTd totals"><strong></strong></td>
+		<% end %>
+
+	</tr>
+	<tr class="pushTr">
+		<th class="pushTh">Avg Per Day</th>
+		<% @competition.participants.each do |participant| %>
+		<td id="AA" data-participant="<%= participant.username %>" class="pushTd averages"><i></i></td>
+		<% end %>
+
+	</tr>
+	<tr class="pushTr">
+		<th class="pushTh">Most in Single Day</th>
+		<% @competition.participants.each do |participant| %>
+		<td data-participant="<%= participant.username %>" class="pushTd most"><strong></strong></td>
+		<% end %>
+
+	</tr>
+</table>
+
+<script>
+	// each days count
+	var dayA;
+	// highest count in one day
+	var highA;
+	// if person hit goal for the day
+	var goalA;
+	// for for loop
+	var i;
+	function totalA(){
+		dayA = document.getElementsByName('A');
+		//v--for finding totals (works)
+		objA = [].reduce.call(dayA, function(obj, el){
+			var key = el.getAttribute('data-participant');
+			obj[key] = (obj[key]||0)+parseInt(el.innerHTML);
+			return obj;
+		},{});
+		bestA = [].reduce.call(dayA, function(obj, el){
+			var key = el.getAttribute('data-participant');
+			var currentNum = parseInt(el.innerHTML);
+			obj[key] = obj[key] > currentNum ? obj[key] : currentNum;
+			return obj;
+		},{});
+		// ^-total found (works)
+		// v--pulling total out and doing stuff with it (works)
+		var elTotals = document.querySelectorAll('.totals');
+		var elAverages = document.querySelectorAll('.averages');
+		var elGoal = document.querySelectorAll('.goal');
+		var elMost = document.querySelectorAll('.most');
+		goalA = 0;
+		for (i=0; i<elTotals.length; i++){
+			var key = elTotals[i].getAttribute('data-participant');
+			//v--each participants total displayed (works)
+			elTotals[i].innerHTML = "<strong>"+objA[key]+"</strong>";
+			//v--each participants average displayed (works)
+			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1) %>+"</i>";
+			//v--to do, fix to find biggest number for each participant not just biggest overall (HELP)
+			elMost[i].innerHTML = bestA[key];
+		}
+		// v--to goal or not for loop (works) TO DO:change j<4 to something connected to Daily
+		var elValue = parseInt(document.querySelectorAll('values'));
+		for (j=0; j<(elTotals.length * <%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1) %>); j++){
+			if (parseInt(dayA[j].innerHTML)>=(<%= @competition.goal %>)) {
+				// v--changes color of days where goal was met or not (works)
+				dayA[j].style.color = "green";
+			}
+			else {
+				dayA[j].style.color = "red";
+			}
+		}
+	}
+	// v--calls totalA() function (works)
+	totalA();
+
+	// v-- hitting enter reloads page
+	$(document).keypress(function (e) {
+    	if (e.which == 13) {
+        	location.reload();
+    	}
+	});
+	// ^-- end
+</script>
