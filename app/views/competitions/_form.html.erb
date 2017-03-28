@@ -22,9 +22,11 @@
       <%= f.label :number_of_competitors %>
       <%= f.number_field :competitor %><input class="save" type="button" value="Save" /><br>
       <% unless edit %>
+      <div class='participantSlots'>
       <%= (2..(@competition.competitor||1)).each do |x| %>
       <%= label_tag :'participants' %>
       <%= text_field_tag :'participants[]' %>
+      </div>
       <% end %>
       <% end %>
       <% if edit %>
@@ -44,15 +46,16 @@
       <%= text_field_tag :'participants[]' %>
 </div>
 
-<!-- <script>
+<script>
 document.addEventListener("DOMContentLoaded",function(){   
     var participants = <%= competition.participants.count %>; 
     var btn = document.querySelector('.save');
       btn.addEventListener('click', function(event){
-        event.preventDefault()
-      for(var i=0; i< document.querySelector('#competition_competitor').value - participants - document.querySelectorAll('#participants_').length; i++) {
-        document.querySelector('form .field').innerHTML += document.querySelector('#template').innerHTML;
+        event.preventDefault();
+        var iterations = document.querySelector('#competition_competitor').value - participants - document.querySelectorAll('#participants_').length;
+      for(var i=0; i<iterations ; i++) {
+        document.querySelector('.participantSlots').innerHTML += document.querySelector('#template').innerHTML;
       }
     })
 });
-</script> -->
+</script>
