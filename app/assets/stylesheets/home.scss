@@ -1,8 +1,3 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-//all
 html{
 	background-color:lightgray;
 }
@@ -13,14 +8,17 @@ html{
 	float:left;
 	text-indent:32px;
 	font-family:'courier new';
+	color:white;
 }
 .about {
 	font-size:22px;
 	font-family:'courier new';
+	color:white;
 }
 
 //first logo
 #logo {
+	border: 4px solid white;
 	margin:1%;
 	float:left;
 }
@@ -32,25 +30,36 @@ html{
 
 //first image
 #creator {
+	border: 4px solid gold;
 	margin:1%;
 	float:left;
 	width:33%;
+	border-radius: 50%;
 }
 
 //links section
 #links {
-	margin:1%;
-	float:left;
+	margin: 1%;
+	float: left;
+	border: 4px solid white;
+	background-color: yellow;
+	border-radius: 40%;
 }
 #charts {
-	
+	font-size:64px;
+	font-family:'courier new';
+}
+.aboutB {
+	font-size:37px;
+	font-family:'courier new';
 }
 
 //second logo
 #lets_do_this {
+	border: 4px solid white;
 	margin:1%;
 	float:left;
-	width:45%;
+	width:35%;
 }
 #image {
 	height:100%;
