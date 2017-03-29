@@ -20,11 +20,10 @@
 			# daily count fixes using REST by janv/rest_in_place with alterations
 			daily = @competition.dailies.where(user_id: participant.id).find_by(sunshine: day) %>
 		<td class="pushTd">
-		<!-- REST experiment -->
 		<span name="A" class="rest-in-place" data-participant="<%= participant.username %>" data-url="/competitions/<%= @competition.id %>/dailies/<%= day %>" data-object="daily" data-attribute="gamecount" data-placeholder='0'>
   		<%= daily ? daily.gamecount : 0 %>
 		</span>
-		<!-- REST experiment -->
+		<!-- end REST  -->
 		</td>
 		<% end %>
 	</tr>
@@ -51,6 +50,9 @@
 
 	</tr>
 </table><br>
+<!-- googlemaps api -->
+<div id="map"></div><br>
+<!-- end -->
 
 <script>
 	// each days count
@@ -114,3 +116,6 @@
 	});
 	// ^-- end
 </script>
+
+<!-- v-implementing googlemaps api, attempt -->
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLEMAPSAPI'] %>"></script>
