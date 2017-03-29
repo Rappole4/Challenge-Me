@@ -8,7 +8,7 @@
 		<% end %>
 	</tr>
 	<tr class="pushTr">
-		<th class="pushTh">Goal</th>
+		<th class="pushTh goal">Goal</th>
 		<% (1..@competition.competitor).each do |competition| %>
 		<th class="pushTh" id="pushGoalcolor"><%= @competition.goal %></th>
 		<% end %>
@@ -50,7 +50,7 @@
 		<% end %>
 
 	</tr>
-</table>
+</table><br>
 
 <script>
 	// each days count

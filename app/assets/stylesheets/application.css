@@ -16,11 +16,29 @@
 #nav {
 	margin: 0%;
 	z-index: 100;
-
+	background-color:black;
+	padding: 1%;
 }
-
-body {
-	background-color: white;
+.navbar-nav {
+	font-size:32px;
+	color:white;
+}
+.nav a {
+	color:white !important;
+}
+.HomeBody {
+	background-color: black;
 	margin: 1%;
 	padding: 1%;
+	height: 100%;
+}
+body {
+	background-color: lightgray;
+	margin: 1%;
+	padding: 1%;
+	height: 100%;
+	font-size:18px;
+}
+.compSize {
+	font-size:15px;
 }
