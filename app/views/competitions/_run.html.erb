@@ -90,10 +90,10 @@
 			elTotals[i].innerHTML = "<strong>"+objA[key]+"</strong>";
 			//v--each participants average displayed (works)
 			elAverages[i].innerHTML = "<i>"+objA[key]/<%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1) %>+"</i>";
-			//v--to do, fix to find biggest number for each participant not just biggest overall (HELP)
+			//v--puts biggest entree per participant
 			elMost[i].innerHTML = bestA[key];
 		}
-		// v--to goal or not for loop (works) TO DO:change j<4 to something connected to Daily
+		// v--to goal or not for loop (works)
 		var elValue = parseInt(document.querySelectorAll('values'));
 		for (j=0; j<(elTotals.length * <%=  ((Date.today - Date.parse(@competition.created_at.to_datetime.to_s)).to_i + 1) %>); j++){
 			if (parseInt(dayA[j].innerHTML)>=(<%= @competition.goal %>)) {
