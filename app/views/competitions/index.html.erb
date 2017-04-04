@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Competitions</h1>
+<h1 class="compSizesss">Competitions</h1>
 
 <table>
   <thead>
@@ -10,14 +10,21 @@
   </thead>
 
   <tbody>
+    <tr>
+      <th class="compSize"><u>Name</u></th>
+      <th class="compSizessss"><u>Type</u></th>
+      <th class="compSizessss"><u>Goal</u></th>
+      <th class="compSizessss"><u>Table</u></th>
+    </tr>
     <% @competitions.each do |competition| %>
       <tr>
         <td class="compSize"><%= competition.name %></td>
-        <td class="compSize"><%= competition.challenge_id %></td>
-        <td class="compSize"><%= competition.goal %></td>
-        <td class="compSize"><%= link_to 'Show', competition %></td>
-        <td class="compSize"><%= link_to 'Edit', edit_competition_path(competition) %></td>
-        <td class="compSize"><%= link_to 'Destroy', competition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <div><div>
+        <td class="compSizess"><%= competition.challenge.game %> - </td>
+        <td class="compSizess">(<%= competition.goal %>)</td>
+        <td class="compSizess"><%= link_to 'Show', competition %></td>
+        <td class="compSizes"><%= link_to 'Edit', edit_competition_path(competition) %></td>
+        <td class="compSizes"><%= link_to 'Destroy', competition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

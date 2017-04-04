@@ -39,6 +39,36 @@ body {
 	height: 100%;
 	font-size:18px;
 }
+/*header*/
+.compSizesss {
+	font-size:36px;
+	text-align:left;
+}
+/*name*/
 .compSize {
-	font-size:15px;
+	font-size:22px;
+	text-align:center;
+	text-indent:50px;
+	line-height:40px;
+}
+/*goals and type heads*/
+.compSizessss {
+	font-size:22px;
+	text-align:center;
+	text-indent:50px;
+	line-height:40px;
+}
+/*goals and type data and show*/
+.compSizess {
+	font-size:22px;
+	text-align:right;
+	text-indent:50px;
+	line-height:40px;
+}
+/*options*/
+.compSizes {
+	font-size:10px;
+	text-align:right;
+	text-indent:80px;
+	line-height:40px;
 }
