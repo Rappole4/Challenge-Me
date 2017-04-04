@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'rest_in_place'
 # REST experiment
 group :production do
+  gem 'sqlite3'
   gem "pg"
 end
 # Use Capistrano for deployment
