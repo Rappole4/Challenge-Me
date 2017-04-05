@@ -26,5 +26,4 @@ test:
   database: db/challenge_test
 
 production:
-  <<: *default
-  database: db/challenge_production
+  database: DATABASE_URL
