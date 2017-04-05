@@ -29,12 +29,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'pg'
 
 # REST experiment
 gem 'rest_in_place'
 # REST experiment
 group :production do
-  gem "pg"
 end
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -52,7 +52,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Use sqlite3 as the database for Active Record
-  gem "pg"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
