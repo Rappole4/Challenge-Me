@@ -6,12 +6,17 @@
 #
 default: &default
   adapter: postgresql
+  username: postgres
+  password: postgres
+  host: localhost
+  encoding: unicode
   pool: 5
   timeout: 5000
 
 development:
   <<: *default
-  database: db/challenge_development
+  database: robert
+  
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
